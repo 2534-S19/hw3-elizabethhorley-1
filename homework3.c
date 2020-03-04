@@ -3,7 +3,7 @@
 #include "myGPIO.h"
 #include "myTimer.h"
 
-
+typedef enum {UP, DOWN} button_state;
 int main(void)
 {
     // Count variables to control the LEDs.
@@ -169,21 +169,21 @@ void changeBoosterpackLED(unsigned int count)
 bool fsmBoosterpackButtonS1(unsigned int buttonhistory)
 {
     bool pressed = false;
-    static int button_status = 0;
+    static button_state button_status = UP;
     //up is 0, down is 1
 
     switch(button_status)
     {
-    case 0:
+    case UP:
         if (buttonhistory == PRESSED)
-            button_status = 1;
+            button_status = DOWN;
     break;
 
-    case 1:
+    case DOWN:
         if (buttonhistory == UNPRESSED)
             {
             pressed = true;
-            button_status = 0;
+            button_status = UP;
             }
     break;
 
